@@ -5,9 +5,9 @@ get_tmux_option() {
 	local default_value=$2
 	local option_value=$(tmux show-option -gqv "$option")
 	if [ -z "$option_value" ]; then
-		echo $default_value
+		echo "$default_value"
 	else
-		echo $option_value
+		echo "$option_value"
 	fi
 }
 
@@ -40,7 +40,11 @@ tmux_socket() {
 	echo $TMUX | cut -d',' -f1
 }
 
-session_exists() {
+session_exists_exact() {
+	tmux has-session -t "=${SESSION_NAME}" >/dev/null 2>&1
+}
+
+session_exists_prefix() {
 	tmux has-session -t "$SESSION_NAME" >/dev/null 2>&1
 }
 
